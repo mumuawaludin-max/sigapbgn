@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.codex-qa/
+.codex-ppt/
+.codex-xlsx/
+outputs/
+tmp/
+*.log
+
+# Berkas hasil pembuatan slide/PPTX yang tidak menjadi bagian kode sumber
+SIGAP-BGN_User-Journey_Comprehensive.pptx
+SIGAP-BGN_User-Journey_Comprehensive.pptx.inspect.ndjson
+
+# Pengaturan lokal Claude Code (spesifik per pengguna, bukan untuk dibagikan)
+.claude/settings.local.json
