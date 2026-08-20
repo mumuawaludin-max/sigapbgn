@@ -277,8 +277,8 @@
 .takeaway-actions { display: flex; flex-wrap: wrap; gap: 2px; }
 .takeaway-actions .icon-button:disabled { opacity: 0.3; cursor: not-allowed; }
 
-.agenda-directives { display: grid; gap: 8px; }
-.agenda-directives > button { display: flex; align-items: center; gap: 11px; padding: 11px 13px; border: 1px solid var(--line); border-radius: 13px; background: #fff; text-align: left; cursor: pointer; }
+.agenda-directives { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.agenda-directives > button { display: flex; align-items: center; gap: 11px; min-width: 0; padding: 11px 13px; border: 1px solid var(--line); border-radius: 13px; background: #fff; text-align: left; cursor: pointer; }
 .agenda-directives > button:hover { border-color: var(--blue); background: #f8fbff; }
 .agenda-directives > button > span:first-child { color: var(--navy); }
 .agenda-directive-copy { flex: 1; min-width: 0; display: grid; gap: 2px; }
@@ -303,6 +303,28 @@
 td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
 td.rank { color: var(--navy); font-weight: 750; }
 .outside-flag { display: inline-flex; align-items: center; gap: 3px; margin-left: 6px; color: #b42318; font-style: normal; }
+
+/* --- Perbaikan responsif: string tanpa spasi (nomor registrasi arahan, mis.
+   "SIGAP/2026/08/0029") memaksa lebar minimum konten pada track grid `1fr`
+   (setara `minmax(auto, 1fr)`), sehingga meluber di layar sempit. Ganti ke
+   `minmax(0, 1fr)` agar track benar-benar bisa menyusut sesuai wadahnya. */
+.verification-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.verification-card { grid-template-columns: minmax(0, 1fr); }
+.verification-card > header { grid-template-columns: auto minmax(0, 1fr) auto; }
+.verification-card small { overflow-wrap: anywhere; }
+.verification-owner > span:nth-child(2) { min-width: 0; }
+.request-panel > div { min-width: 0; }
+
+@media (max-width: 900px) {
+  .verification-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* --- Perbaikan responsif: baris tab bisa lebih lebar dari wadahnya begitu
+   jumlah tab bertambah (mis. 4 tab pada Pemeriksaan). `width: fit-content`
+   pada .segment-tabs tidak dibatasi lebar induknya, sehingga meluber di
+   lebar tablet. Batasi ke lebar wadah dan izinkan gulir mendatar sendiri. */
+.segment-tabs { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.segment-tabs::-webkit-scrollbar { display: none; }
 
 /* --- Halaman pemeriksaan --- */
 .tab-count { min-width: 19px; height: 19px; display: inline-grid; place-items: center; padding: 0 5px; border-radius: 999px; color: #fff; background: var(--danger); font-size: 9.5px; font-weight: 750; }
@@ -397,9 +419,9 @@ td.rank { color: var(--navy); font-weight: 750; }
 
 /* --- Responsif --- */
 @media (max-width: 1100px) {
-  .agenda-layout { grid-template-columns: 1fr; }
+  .agenda-layout { grid-template-columns: minmax(0, 1fr); }
   .agenda-list { max-height: none; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-  .matrix-grid { grid-template-columns: 1fr; }
+  .matrix-grid { grid-template-columns: minmax(0, 1fr); }
   .priority-matrix { padding-left: 0; }
   .axis-label.axis-y { display: none; }
 }
@@ -429,6 +451,13 @@ td.rank { color: var(--navy); font-weight: 750; }
   .agenda-list, .agenda-list > button { min-width: 0; }
 }
 
+@media (max-width: 400px) {
+  /* Dua tombol berdampingan (mis. "Unduh laporan" + "Catat arahan") tidak
+     cukup dalam satu baris nowrap di layar sangat sempit; izinkan membungkus. */
+  .heading-actions { flex-wrap: wrap; }
+  .heading-actions .button { flex: 1 1 auto; justify-content: center; }
+}
+
 @media (max-width: 680px) {
   .focus-item { grid-template-columns: 40px minmax(0, 1fr) auto; }
   .focus-item-status { align-items: flex-end; }
@@ -441,7 +470,7 @@ td.rank { color: var(--navy); font-weight: 750; }
   .detail-alert { flex-direction: column; align-items: flex-start; }
   .detail-alert .button { width: 100%; }
   .work-alert-copy strong { font-size: 13px; }
-  .agenda-list { grid-template-columns: 1fr; }
+  .agenda-list { grid-template-columns: minmax(0, 1fr); }
   .agenda-detail { padding: 18px 16px 20px; }
   .agenda-detail-head h2 { font-size: 19px; }
   .takeaway-list > li { flex-wrap: wrap; }
