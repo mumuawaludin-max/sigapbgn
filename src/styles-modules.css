@@ -459,8 +459,27 @@ td.rank { color: var(--navy); font-weight: 750; }
 }
 
 @media (max-width: 680px) {
-  .focus-item { grid-template-columns: 40px minmax(0, 1fr) auto; }
-  .focus-item-status { align-items: flex-end; }
+  /* Status (dua lencana) tidak muat berdampingan dengan judul dalam satu
+     baris di layar sempit tanpa memaksa salah satunya menyusut berlebihan.
+     Susun dua baris: ikon+judul+panah di atas, status di bawah — bukan
+     empat kolom sejajar. */
+  .focus-item {
+    grid-template-columns: 40px minmax(0, 1fr) 20px;
+    grid-template-areas: "icon title caret" ".    status status";
+    row-gap: 6px;
+  }
+  .focus-item-icon { grid-area: icon; }
+  .focus-item-copy { grid-area: title; }
+  .focus-item-status {
+    grid-area: status;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  /* Aturan lama di styles.css mengunci panah ke kolom 3 (peninggalan tata
+     letak sebelum area ini ditambahkan); pindahkan ke area "caret". */
+  .focus-item > svg { grid-area: caret; align-self: start; }
   .tracker-summary { padding: 16px 14px 18px; }
   .tracker-stat-grid { grid-template-columns: 1fr 1fr; }
   .tracker-stat-card strong { font-size: 21px; }
